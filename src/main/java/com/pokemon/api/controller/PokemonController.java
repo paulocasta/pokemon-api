@@ -1,9 +1,9 @@
 package com.pokemon.api.controller;
 
 import com.pokemon.api.connection.RestConnection;
-import com.pokemon.api.model.domain.NamedAPIResource;
-import com.pokemon.api.model.domain.Pokemon;
-import com.pokemon.api.model.domain.PokemonList;
+import com.pokemon.api.model.resource.NamedAPIResource;
+import com.pokemon.api.model.resource.Pokemon;
+import com.pokemon.api.model.resource.ResultList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +19,10 @@ public class PokemonController {
     @Autowired
     private RestConnection connection;
 
-
     @GetMapping("/list")
     public List<NamedAPIResource> listPokemon() {
         List<NamedAPIResource> results = new ArrayList<>();
-        PokemonList pokemonList = connection.executeGetAll();
+        ResultList pokemonList = connection.executeGetAll();
         results.addAll(pokemonList.getResults());
         while (pokemonList.getNext() != null) {
             pokemonList = connection.executeNextUrl(pokemonList.getNext());
